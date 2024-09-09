@@ -1,0 +1,595 @@
+<!DOCTYPE html>
+{%load static%}
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>jack&johns</title>
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+  <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.2/dist/umd/popper.min.js"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+  
+ <!-- 
+    - favicon
+  -->
+  <link rel="shortcut icon" href="{% static "./favicon.svg" %}"
+  type="image/svg+xml">
+
+  <!-- 
+  - custom css link
+-->
+  <link
+    rel="stylesheet"
+    href="{% static './skinapp/assets/css/style.css' %}"
+  />
+  <!-- 
+    - google font link
+  -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Urbanist:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+  <!-- 
+    - preload images
+  -->
+  <link
+      rel="preload"
+      as="image"
+      href="{% static './ecommerceapp/assets/images/logo.png' %}"
+    />
+    <link
+      rel="preload"
+      as="image"
+      href="{% static './ecommerceapp/assets/images/hero-banner-1.jpg' %}"
+    />
+    <link
+      rel="preload"
+      as="image"
+      href="{% static './ecommerceapp/assets/images/hero-banner-2.jpg' %}"
+    />
+    <link
+      rel="preload"
+      as="image"
+      href="{% static './ecommerceapp/assets/images/hero-banner-3.jpg' %}"
+    />
+</head>
+
+<body id="top">
+
+  <!-- 
+    - #HEADER
+  -->
+
+  <header class="header">
+
+   
+
+    <div class="header-top" data-header>
+      <div class="container">
+
+        <button class="nav-open-btn" aria-label="open menu" data-nav-toggler>
+          <span class="line line-1"></span>
+          <span class="line line-2"></span>
+          <span class="line line-3"></span>
+        </button>
+
+        <div class="input-wrapper">
+          <form action="#" method="get">
+              <input type="search" name="name" placeholder="Search product" class="search-field" id="searchInput">
+              <button type="submit" class="search-submit" aria-label="search">
+                  <ion-icon name="search-outline" aria-hidden="true"></ion-icon>
+              </button>
+          </form>
+      </div>
+
+        <a href="#" class="logo">
+          <!-- <img src='{% static './skinapp/assets/images/logo.png'%}' width="179" height="26" alt="Glowing"> -->
+        </a>
+
+        <div class="header-actions">
+{%if user.is_authenticated%}
+<h5>welcome,{{request.user}},<a href="/logout">Logout</a></h5>
+{%else%}
+        <a href="/signup">  <button class="header-action-btn" aria-label="user">
+            <ion-icon name="person-outline" aria-hidden="true" aria-hidden="true"></ion-icon>
+          </button>
+        </a>
+        {%endif%}
+        
+        {% comment %} <button class="header-action-btn" aria-label="favourite item">
+          <a href="#">
+              <ion-icon name="star-outline" aria-hidden="true"></ion-icon>
+          </a>
+          <span class="btn-badge">{{ wishlist_count }}</span>
+      </button>
+      
+          <button class="header-action-btn" aria-label="cart item">
+            {%if user.is_athenticated%}
+            <data class="btn-text" value="{{ total_price }}">RS.{{ total_price }}.00</data>
+            {%endif%}
+         <a href="#">   <ion-icon name="bag-handle-outline" aria-hidden="true"></ion-icon></a>
+            <span class="btn-badge">{{ item_count }}</span>
+        </button> {% endcomment %}
+
+        </div>
+
+        {%if user.is_authenticated%}
+        <nav class="navbar">
+          <ul class="navbar-list">
+
+            <li>
+              <a href="/" class="navbar-link has-after">Home</a>
+            </li>
+
+           
+
+       
+
+            <li>
+              <a href="/EditProfile" class="navbar-link has-after">My Account</a>
+            </li>
+         
+            <li>
+              <a href="/my-cart"class="navbar-link has-after">My Cart</a>
+            </li>
+            <li>
+              <a href="/my-orders"class="navbar-link has-after">My Orders</a>
+            </li>
+         
+
+          </ul>
+        </nav>
+        {%else%}
+        <nav class="navbar">
+          <ul class="navbar-list">
+
+            <li>
+              <a href="/" class="navbar-link has-after">Home</a>
+            </li>
+
+           
+
+            <li>
+              <a href="#shop" class="navbar-link has-after">Shop</a>
+            </li>
+
+            <li>
+              <a href="#"class="navbar-link has-after">Collection</a>
+            </li>
+            <li>
+              <a href="#blog" class="navbar-link has-after">Blog</a>
+            </li>
+
+          </ul>
+        </nav>
+        {%endif%}
+      </div>
+    </div>
+
+  </header>
+
+
+    <!-- 
+    - #MOBILE NAVBAR
+  -->
+
+    <div class="sidebar">
+      <div class="mobile-navbar" data-navbar>
+        <div class="wrapper">
+          <a href="#" class="logo">
+            <img
+            src='{% static './skinapp/assets/logo.png'%}'
+              width="179"
+              height="26"
+              alt="Glowing"
+            />
+          </a>
+
+          <button
+            class="nav-close-btn"
+            aria-label="close menu"
+            data-nav-toggler
+          >
+            <ion-icon name="close-outline" aria-hidden="true"></ion-icon>
+          </button>
+        </div>
+
+        <ul class="navbar-list">
+          <li>
+            <a href="#home" class="navbar-link" data-nav-link>Home</a>
+          </li>
+
+          <li>
+            <a href="#collection" class="navbar-link" data-nav-link
+              >Collection</a
+            >
+          </li>
+
+          <li>
+            <a href="#shop" class="navbar-link" data-nav-link>Shop</a>
+          </li>
+
+          <li>
+            <a href="#offer" class="navbar-link" data-nav-link>Offer</a>
+          </li>
+
+          <li>
+            <a href="#blog" class="navbar-link" data-nav-link>Blog</a>
+          </li>
+        </ul>
+      </div>
+
+      <div class="overlay" data-nav-toggler data-overlay></div>
+    </div>
+
+    <main>
+      <article>
+        <!-- 
+        - #HERO
+      -->
+
+    
+
+      <section class="section shop" id="shop" aria-label="shop" data-section>
+        <div class="container">
+{% if search %}
+          <div class="title-wrapper">
+            <h2 class="h2 section-title">Search Results for "{{cat}}"</h2>
+
+          
+          </div>
+          {% else %}
+          <div class="title-wrapper">
+            <h2 class="h2 section-title">Jackets on Category  {{cat.name}}</h2>
+
+          
+          </div>
+
+          {% endif %}
+
+          <ul class="has-scrollbar">
+{%for i in a %}
+            <li class="scrollbar-item">
+              <a href="/productDetail/{{i.id}}">
+              <div class="shop-card">
+
+                <div class="card-banner img-holder" style="--width: 540; --height: 720;">
+                  <img src={{i.image.url}} width="540" height="720" loading="lazy"
+                    alt="Facial cleanser" class="img-cover">
+
+              
+
+                
+                </div>
+
+                <div class="card-content">
+
+                  <div class="price">
+                    <span class="span">RS</span>
+                    <span>.{{i.price}}</span>
+                    
+
+                   
+                  </div>
+
+                  <h3>
+                    {% if i.id %}
+                    <a
+                      href="#"
+                      class="card-title"
+                      >{{ i.name }}</a
+                    >
+                    {% else %} {{ i.name }} {% endif %}
+                  </h3>
+
+                  <div class="card-rating">
+
+                    <div class="rating-wrapper" aria-label="5 start rating">
+                      {% if i.rating == 1 %}
+                      <ion-icon name="star"></ion-icon>
+                      {% elif i.rating == 2 %}
+                      <ion-icon name="star"></ion-icon>
+                      <ion-icon name="star"></ion-icon>
+                      {% elif i.rating == 3 %}
+                      <ion-icon name="star"></ion-icon>
+                      <ion-icon name="star"></ion-icon>
+                      <ion-icon name="star"></ion-icon>
+                      {% elif i.rating == 4 %}
+                      <ion-icon name="star"></ion-icon>
+                      <ion-icon name="star"></ion-icon>
+                      <ion-icon name="star"></ion-icon>
+                      <ion-icon name="star"></ion-icon>
+                      {% elif i.rating == 5 %}
+                      <ion-icon name="star"></ion-icon>
+                      <ion-icon name="star"></ion-icon>
+                      <ion-icon name="star"></ion-icon>
+                      <ion-icon name="star"></ion-icon>
+                      <ion-icon name="star"></ion-icon>
+                      {% endif %}
+                    </div>
+
+
+                   
+                  </div>
+
+                </div>
+
+              </div>
+            </a>
+            </li>
+          
+           {%endfor%}
+
+          </ul>
+
+        </div>
+      </section>
+
+   
+        <!-- 
+        - #BANNER
+      -->
+
+     
+
+        <!-- 
+        - #FEATURE
+      -->
+
+    
+        <!-- 
+        - #OFFER
+      -->
+
+
+        <!-- 
+        - #BLOG
+      -->
+
+   
+      </article>
+    </main>
+
+    <!-- 
+    - #FOOTER
+  -->
+
+    <footer class="footer" data-section>
+      <div class="container">
+        <div class="footer-top">
+          <ul class="footer-list">
+            <li>
+              <p class="footer-list-title">Company</p>
+            </li>
+
+            <li>
+              <p class="footer-list-text">
+                Find a location nearest you. See
+                <a href="#" class="link">Our Stores</a>
+              </p>
+            </li>
+
+            <li>
+              <p class="footer-list-text bold">+91 7306621338</p>
+            </li>
+
+            <li>
+              <p class="footer-list-text">hello@aleesha.com</p>
+            </li>
+          </ul>
+
+          <ul class="footer-list">
+            <li>
+              <p class="footer-list-title">Useful links</p>
+            </li>
+
+            <li>
+              <a href="#" class="footer-link">New Products</a>
+            </li>
+
+            <li>
+              <a href="#" class="footer-link">Best Sellers</a>
+            </li>
+
+            <li>
+              <a href="#" class="footer-link">Bundle & Save</a>
+            </li>
+
+            <li>
+              <a href="#" class="footer-link">Online Gift Card</a>
+            </li>
+          </ul>
+
+          <ul class="footer-list">
+            <li>
+              <p class="footer-list-title">Infomation</p>
+            </li>
+
+            <li>
+              <a href="#" class="footer-link">Start a Return</a>
+            </li>
+
+            <li>
+              <a href="#" class="footer-link">Contact Us</a>
+            </li>
+
+            <li>
+              <a href="#" class="footer-link">Shipping FAQ</a>
+            </li>
+
+            <li>
+              <a href="#" class="footer-link">Terms & Conditions</a>
+            </li>
+
+            <li>
+              <a href="#" class="footer-link">Privacy Policy</a>
+            </li>
+          </ul>
+
+          <div class="footer-list">
+            <p class="newsletter-title">Good emails.</p>
+
+            <p class="newsletter-text">
+              Enter your email below to be the first to know about new
+              collections and product launches.
+            </p>
+
+            <form action="" class="newsletter-form">
+              <input
+                type="email"
+                name="email_address"
+                placeholder="Enter your email address"
+                required
+                class="email-field"
+              />
+
+              <button type="submit" class="btn btn-primary">Subscribe</button>
+            </form>
+          </div>
+        </div>
+
+        <div class="footer-bottom">
+          <div class="wrapper">
+            {% comment %} <p class="copyright">&copy; 2022 codewithsadee</p> {% endcomment %}
+
+            <ul class="social-list">
+              <li>
+                <a href="#" class="social-link">
+                  <ion-icon name="logo-twitter"></ion-icon>
+                </a>
+              </li>
+
+              <li>
+                <a href="#" class="social-link">
+                  <ion-icon name="logo-facebook"></ion-icon>
+                </a>
+              </li>
+
+              <li>
+                <a href="#" class="social-link">
+                  <ion-icon name="logo-instagram"></ion-icon>
+                </a>
+              </li>
+
+              <li>
+                <a href="#" class="social-link">
+                  <ion-icon name="logo-youtube"></ion-icon>
+                </a>
+              </li>
+            </ul>
+          </div>
+
+          <a href="#" class="logo">
+            <img
+              src="{% static './skinapp/assets/images/logo.png'%}"
+              width="179"
+              height="26"
+              loading="lazy"
+              alt="Glowing"
+            />
+          </a>
+
+          <img
+            src="{% static './skinapp/assets/images/pay.png'%}"
+            width="313"
+            height="28"
+            alt="available all payment method"
+            class="w-100"
+          />
+        </div>
+      </div>
+    </footer>
+
+    <!-- 
+    - #BACK TO TOP
+  -->
+
+    <a
+      href="#top"
+      class="back-top-btn"
+      aria-label="back to top"
+      data-back-top-btn
+    >
+      <ion-icon name="arrow-up" aria-hidden="true"></ion-icon>
+    </a>
+
+    <!-- 
+    - custom js link
+  -->
+  <script src="{% static './skinapp/assets/js/script.js' %}" defer></script>
+
+
+    <!-- 
+    - ionicon link
+  -->
+    <script
+      type="module"
+      src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"
+    ></script>
+    <script
+      nomodule
+      src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"
+    ></script>
+
+    <style>
+      .filter-section {
+          padding: 20px;
+          background-color: #f5f5f5;
+          border-radius: 8px;
+          margin-bottom: 20px;
+      }
+      
+      .filter-form {
+          display: flex;
+          flex-wrap: wrap;
+          gap: 20px;
+          align-items: center;
+      }
+      
+      .filter-group {
+          display: flex;
+          flex-direction: column;
+      }
+      
+      .filter-group label {
+          font-size: 16px;
+          margin-bottom: 5px;
+          font-weight: bold;
+          color: #333;
+      }
+      
+      .filter-group select {
+          padding: 10px;
+          border-radius: 5px;
+          border: 1px solid #ccc;
+          font-size: 14px;
+          color: #666;
+      }
+      
+      .btn-filter {
+          padding: 10px 20px;
+          background-color: #007bff;
+          color: white;
+          border: none;
+          border-radius: 5px;
+          cursor: pointer;
+          font-size: 16px;
+          transition: background-color 0.3s ease;
+      }
+      
+      .btn-filter:hover {
+          background-color: #0056b3;
+      }
+      
+      @media (max-width: 768px) {
+          .filter-form {
+              flex-direction: column;
+              align-items: stretch;
+          }
+      }
+      </style>
+  </body>
+</html>

@@ -1,0 +1,264 @@
+{% extends 'skinapp/Base.html' %}
+
+{% load static %}
+
+{% block body %}
+
+
+<div class="custom-main-wrapper">
+    <aside class="unique-filter-sidebar">
+        <h3 class="unique-sidebar-title">Filters</h3>
+        <div class="unique-filter-form">
+            <form action="{% url 'skinapp:collection' %}" method="get" class="filter-form">
+                  <fieldset class="filter-group">
+                      <legend>Categories</legend>
+                      {% for category in categories %}
+                          <div class="filter-option">
+                              <input type="checkbox" id="category{{ forloop.counter }}" name="category" value="{{ category.name }}">
+                              <label for="category{{ forloop.counter }}">{{ category.name }}</label>
+                          </div>
+                      {% endfor %}
+                  </fieldset>
+              
+                  <fieldset class="filter-group">
+                      <legend>Price Range</legend>
+                      <!-- Example for one price range -->
+                      <div class="filter-option">
+                          <input type="checkbox" id="price1" name="price" value="150-250">
+                          <label for="price1">RS.150 - RS.250</label>
+                      </div>
+                      <div class="filter-option">
+                        <input type="checkbox" id="price1" name="price" value="150-250">
+                        <label for="price1">RS.250 - RS.350</label>
+                    </div>
+                    <div class="filter-option">
+                        <input type="checkbox" id="price1" name="price" value="150-250">
+                        <label for="price1">RS.350 - RS.550</label>
+                    </div>
+                    <div class="filter-option">
+                        <input type="checkbox" id="price1" name="price" value="150-250">
+                        <label for="price1">RS.550 - RS.1000</label>
+                    </div>
+                      <!-- Add more price ranges with similar structure -->
+                  </fieldset>
+              
+                  <button type="submit" class="apply-filters-btn">Apply Filters</button>
+              </form>
+        </div>
+    </aside>
+  
+      <!-- Main Content Area -->
+      <div class="unique-main-content">
+          <!-- Your main content goes here -->
+<div class="container product-section">
+    <div class="products-grid">
+        {% for product in a %}
+            <div class="product-card">
+                <div class="product-image">
+                    <img src="{{ product.image.url }}" alt="{{ product.name }}">
+                </div>
+                <div class="product-info">
+                  <a
+                  href="{% url 'skinapp:ProductDetail' product.id %}"
+                  class="card-title"
+                  >{{ product.name }}</a
+                >
+                    <p class="product-price">RS.{{ product.price }}</p>
+                    <a href="{% url 'skinapp:ProductDetail' product.id %}" class="product-link">View Details</a>
+                </div>
+            </div>
+        {% empty %}
+            <p>No products available.</p>
+        {% endfor %}
+    </div>
+</div>
+</div>
+</div>
+{% block head %}
+<style>
+    .unique-filter-form {
+        padding: 20px;
+    }
+
+    .unique-filter-form fieldset {
+        border: none;
+        margin: 0 0 20px 0;
+        padding: 0;
+    }
+
+    .unique-filter-form legend {
+        font-size: 1.2em;
+        margin-bottom: 10px;
+        font-weight: bold;
+        color: #333;
+    }
+
+    .unique-filter-form label {
+        display: flex;
+        align-items: center;
+        margin-bottom: 5px;
+        cursor: pointer;
+    }
+
+    .unique-filter-form label input[type="checkbox"] {
+        margin-right: 10px;
+        cursor: pointer;
+    }
+
+    .unique-filter-form button {
+        background-color: #007bff;
+        color: white;
+        border: none;
+        padding: 10px 20px;
+        border-radius: 5px;
+        cursor: pointer;
+        transition: background-color 0.3s;
+    }
+
+    .unique-filter-form button:hover {
+        background-color: #0056b3;
+    }
+</style>
+{% endblock %}
+
+<style>
+    .custom-main-wrapper {
+        display: flex;
+        flex-wrap: wrap; /* Ensure the content can wrap if needed */
+        background-color: #ffffff; /* Setting the main wrapper background to white */
+    }
+    
+  .unique-filter-sidebar {
+    background-color: #f9f9f9; /* Softer background */
+    padding: 20px;
+    border-radius: 8px; /* Smoothed corners */
+}
+    
+    .unique-main-content {
+        flex-grow: 1;
+        padding: 20px;
+        background-color: #ffffff; /* White background */
+        box-shadow: 0 4px 6px rgba(0,0,0,0.1); /* Consistent shadow for depth */
+        border-radius: 10px; /* Rounded corners */
+        max-width: calc(100% - 280px); /* Adjusting max-width considering margin */
+    }
+    
+    /* Enhancing typography for better readability and aesthetic */
+    h3.unique-sidebar-title, .unique-main-content h2, .unique-main-content p, .rev-title, .rev-desc-review {
+        color: #333; /* Darker text for better contrast */
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; /* Pleasant, readable font */
+    }
+    
+    /* Button and input enhancements for a more engaging user experience */
+    button.unique-btn-filter, .sp-product-btn-group .sp-button, input[type="checkbox"], .quantity-btn, .submit-btn {
+        background-color: #007bff; /* Vibrant, consistent color */
+        color: #ffffff; /* White text for readability */
+        border: none;
+        padding: 10px 15px;
+        border-radius: 5px; /* Rounded corners for buttons */
+        cursor: pointer; /* Indicate clickable items */
+        font-size: 14px;
+    }
+    
+    input[type="checkbox"] {
+        margin-right: 5px; /* Ensure spacing between checkbox and label */
+    }
+    
+    button:hover, .sp-product-btn-group .sp-button:hover, .submit-btn:hover {
+        background-color: #0056b3; /* Darker shade on hover for interaction feedback */
+    }
+    
+    /* Responsive adjustments */
+    @media (max-width: 768px) {
+        .custom-main-wrapper {
+            flex-direction: column;
+        }
+    
+        .unique-filter-sidebar, .unique-main-content {
+            flex: 0 0 100%;
+            max-width: 100%;
+            margin-right: 0; /* Remove margin in smaller screens */
+        }
+    
+        .unique-main-content {
+            margin-top: 20px;
+        }
+    }
+    
+    .unique-filter-group label {
+      display: block; /* Ensures each label is full-width, enhancing the line-by-line look */
+      margin-bottom: 8px; /* Adds a little space between each option for better readability */
+    }
+    
+    .unique-filter-group input[type="checkbox"] {
+      margin-right: 10px; /* Adjust spacing between checkbox and label text */
+    }
+    
+    .unique-filter-sidebar {
+      /* Existing styles */
+      box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+      border-radius: 10px;
+      /* Add any additional styles you prefer */
+    }
+  .product-section .products-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    grid-gap: 20px;
+}
+
+.product-section .product-card {
+    background-color: #fff;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    transition: box-shadow 0.3s, transform 0.3s;
+}
+
+.product-section .product-card:hover {
+    box-shadow: 0 6px 12px rgba(0,0,0,0.15);
+    transform: translateY(-5px);
+}
+
+.product-section .product-image img {
+    width: 100%;
+    height: auto;
+    display: block;
+}
+
+.product-section .product-info {
+    padding: 15px;
+    text-align: center;
+}
+
+.product-section .product-name {
+    margin: 10px 0;
+    font-size: 1.1em;
+    color: #333;
+}
+
+.product-section .product-price {
+    font-weight: bold;
+    color: #007bff;
+}
+
+.product-section .product-link {
+    display: inline-block;
+    margin-top: 10px;
+    background-color: #007bff;
+    color: white;
+    padding: 8px 12px;
+    text-decoration: none;
+    border-radius: 4px;
+    transition: background-color 0.3s;
+}
+
+.product-section .product-link:hover {
+    background-color: #0056b3;
+}
+
+
+/* Continue with other specific styles for .product-name, .product-price, .product-link */
+
+</style>
+{% endblock %}

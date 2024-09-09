@@ -1,0 +1,69 @@
+{%load static%}
+
+<link href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" rel="stylesheet">
+    <link
+    rel="stylesheet"
+    href="{% static './skinapp/assets/css/order.css' %}"
+  />
+</head>
+
+
+    <div class="container">
+        <div class="container">
+            <article class="card">
+                <header class="card-header"> My Orders / Tracking </header>
+                <div class="card-body">
+                    <h6>Order ID: OD45345345435</h6>
+                    <article class="card">
+                        <div class="card-body row">
+                            <div class="col"> <strong>Estimated Delivery time:</strong> <br>29 nov 2019 </div>
+                            <div class="col"> <strong>Shipping BY:</strong> <br> GLOWING, | <i class="fa fa-phone"></i> +91 98675986 </div>
+                            <div class="col"> <strong>Status:</strong> <br> {{latest_status}} </div>
+                            <div class="col"> <strong>Tracking #:</strong> <br> BD045903594059 </div>
+                        </div>
+                    </article>
+                    <div class="track">
+                        <div class="step {% if latest_status != 'order received' and latest_status %}active{% endif %}">
+                            <span class="icon"> <i class="fa fa-check"></i> </span>
+                            <span class="text">Order Confirmed</span>
+                        </div>
+                        <div class="step {% if latest_status == 'order processing' or latest_status == 'order on the way' or latest_status == 'order completed' %}active{% endif %}">
+                            <span class="icon"> <i class="fa fa-user"></i> </span>
+                            <span class="text">Order Processed</span>
+                        </div>
+                        <div class="step {% if latest_status == 'order on the way' or latest_status == 'order completed' %}active{% endif %}">
+                            <span class="icon"> <i class="fa fa-truck"></i> </span>
+                            <span class="text">Order Shipped</span>
+                        </div>
+                        <div class="step {% if latest_status == 'order completed' %}active{% endif %}">
+                            <span class="icon"> <i class="fa fa-box"></i> </span>
+                            <span class="text">Order Completed</span>
+                        </div>
+                    </div>
+                    
+                    
+                    
+                    
+                    <hr>
+                    <ul class="row">
+                        {% for product in order.products %}
+                        <li class="col-md-4">
+                            <figure class="itemside mb-3">
+                                <div class="aside"><img src="{{ product.image }}" class="img-sm border"></div>
+                                <figcaption class="info align-self-center">
+                                    <p class="title">{{ product.title }}</p> <span class="text-muted">{{ product.price }}</span>
+                                </figcaption>
+                            </figure>
+                        </li>
+                        {% endfor %}
+                    </ul>
+                    <hr>
+                    <a href="/userOrderDetail" class="btn btn-warning" data-abc="true"> <i class="fa fa-chevron-left"></i> Back to Orders</a>
+                </div>
+            </article>
+        </div>
+    </div>
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.bundle.min.js"></script>

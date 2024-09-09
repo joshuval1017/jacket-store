@@ -1,0 +1,253 @@
+{% extends 'skinapp/Base.html' %}
+
+{% load static %}
+
+{% block body %}
+
+
+
+
+
+<div class="custom-main-wrapper">
+
+    <!-- Main Content Area -->
+    <div class="unique-main-content">
+        <!-- Your main content goes here -->
+        
+
+<div class="container">
+  {% comment %} <div class="title-wrapper">
+    <h2 class="h2 section-title">Under $25</h2>
+
+    <a href="#" class="btn-link">
+      <span class="span">Shop All Products</span>
+
+      <ion-icon name="arrow-forward" aria-hidden="true"></ion-icon>
+    </a>
+  </div> {% endcomment %}
+
+  <ul class="has-scrollbar">
+    {%for i in a %}
+    <li class="scrollbar-item">
+      <div class="shop-card">
+        <div
+          class="card-banner img-holder"
+          style="--width: 540; --height: 720"
+        >
+          <img src='{{i.image.url}}' width="540"
+          height="720" loading="lazy" alt="Facial cleanser"
+          class="img-cover">
+
+          <span class="badge" aria-label="20% off">-20%</span>
+
+          <div class="card-actions">
+            <button class="action-btn" aria-label="add to cart">
+              <ion-icon
+                name="bag-handle-outline"
+                aria-hidden="true"
+              ></ion-icon>
+            </button>
+
+            <button class="action-btn" aria-label="add to whishlist">
+              <ion-icon
+                name="star-outline"
+                aria-hidden="true"
+              ></ion-icon>
+            </button>
+
+            <button class="action-btn" aria-label="compare">
+              <ion-icon
+                name="repeat-outline"
+                aria-hidden="true"
+              ></ion-icon>
+            </button>
+          </div>
+        </div>
+
+        <div class="card-content">
+          <div class="price">
+            {%if i.discount > 0 in a %}
+            {% comment %} <del class="del">RS.{{i.price}}</del> {% endcomment %}
+
+            <span class="span">RS.{{i.discount}}</span>
+            {%else%}
+            <span class="span">RS.{{i.price}}</span>
+          {%endif%}
+          </div>
+
+          <h3>
+            <a href="{% url 'skinapp:ProductDetail' i.id %}" class="card-title">{{i.name}}</a>
+          </h3>
+
+          <div class="card-rating">
+            <div class="rating-wrapper" aria-label="5 start rating">
+              {% if i.rating == 1 %}
+              <ion-icon name="star"></ion-icon>
+              {% elif i.rating == 2 %}
+              <ion-icon name="star"></ion-icon>
+              <ion-icon name="star"></ion-icon>
+              {% elif i.rating == 3 %}
+              <ion-icon name="star"></ion-icon>
+              <ion-icon name="star"></ion-icon>
+              <ion-icon name="star"></ion-icon>
+              {% elif i.rating == 4 %}
+              <ion-icon name="star"></ion-icon>
+              <ion-icon name="star"></ion-icon>
+              <ion-icon name="star"></ion-icon>
+              <ion-icon name="star"></ion-icon>
+              {% elif i.rating == 5 %}
+              <ion-icon name="star"></ion-icon>
+              <ion-icon name="star"></ion-icon>
+              <ion-icon name="star"></ion-icon>
+              <ion-icon name="star"></ion-icon>
+              <ion-icon name="star"></ion-icon>
+              {% endif %}
+            </div>
+
+            <p class="rating-text">{{i.numReviews}} reviews</p>
+          </div>
+        </div>
+      </div>
+    </li>
+    {%endfor%}
+
+    
+   
+
+   
+    
+  </ul>
+</div>
+</div>
+{% block head %}
+<style>
+    .unique-filter-form {
+        padding: 20px;
+    }
+
+    .unique-filter-form fieldset {
+        border: none;
+        margin: 0 0 20px 0;
+        padding: 0;
+    }
+
+    .unique-filter-form legend {
+        font-size: 1.2em;
+        margin-bottom: 10px;
+        font-weight: bold;
+        color: #333;
+    }
+
+    .unique-filter-form label {
+        display: flex;
+        align-items: center;
+        margin-bottom: 5px;
+        cursor: pointer;
+    }
+
+    .unique-filter-form label input[type="checkbox"] {
+        margin-right: 10px;
+        cursor: pointer;
+    }
+
+    .unique-filter-form button {
+        background-color: #007bff;
+        color: white;
+        border: none;
+        padding: 10px 20px;
+        border-radius: 5px;
+        cursor: pointer;
+        transition: background-color 0.3s;
+    }
+
+    .unique-filter-form button:hover {
+        background-color: #0056b3;
+    }
+</style>
+{% endblock %}
+<style>
+  .custom-main-wrapper {
+    display: flex;
+    flex-wrap: wrap; /* Ensure the content can wrap if needed */
+    background-color: #ffffff; /* Setting the main wrapper background to white */
+}
+
+.unique-filter-sidebar {
+    flex: 0 0 240px; /* Flex-grow, flex-shrink, flex-basis */
+    padding: 20px;
+    background-color: #ffffff; /* White background for consistency */
+    box-shadow: 0 4px 6px rgba(0,0,0,0.1); /* Slightly stronger shadow for depth */
+    border-radius: 10px; /* Rounded corners for modern look */
+    margin-right: 20px; /* Add a gap between the sidebar and main content */
+}
+
+.unique-main-content {
+    flex-grow: 1;
+    padding: 20px;
+    background-color: #ffffff; /* White background */
+    box-shadow: 0 4px 6px rgba(0,0,0,0.1); /* Consistent shadow for depth */
+    border-radius: 10px; /* Rounded corners */
+    max-width: calc(100% - 280px); /* Adjusting max-width considering margin */
+}
+
+/* Enhancing typography for better readability and aesthetic */
+h3.unique-sidebar-title, .unique-main-content h2, .unique-main-content p, .rev-title, .rev-desc-review {
+    color: #333; /* Darker text for better contrast */
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; /* Pleasant, readable font */
+}
+
+/* Button and input enhancements for a more engaging user experience */
+button.unique-btn-filter, .sp-product-btn-group .sp-button, input[type="checkbox"], .quantity-btn, .submit-btn {
+    background-color: #007bff; /* Vibrant, consistent color */
+    color: #ffffff; /* White text for readability */
+    border: none;
+    padding: 10px 15px;
+    border-radius: 5px; /* Rounded corners for buttons */
+    cursor: pointer; /* Indicate clickable items */
+    font-size: 14px;
+}
+
+input[type="checkbox"] {
+    margin-right: 5px; /* Ensure spacing between checkbox and label */
+}
+
+button:hover, .sp-product-btn-group .sp-button:hover, .submit-btn:hover {
+    background-color: #0056b3; /* Darker shade on hover for interaction feedback */
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .custom-main-wrapper {
+        flex-direction: column;
+    }
+
+    .unique-filter-sidebar, .unique-main-content {
+        flex: 0 0 100%;
+        max-width: 100%;
+        margin-right: 0; /* Remove margin in smaller screens */
+    }
+
+    .unique-main-content {
+        margin-top: 20px;
+    }
+}
+
+.unique-filter-group label {
+  display: block; /* Ensures each label is full-width, enhancing the line-by-line look */
+  margin-bottom: 8px; /* Adds a little space between each option for better readability */
+}
+
+.unique-filter-group input[type="checkbox"] {
+  margin-right: 10px; /* Adjust spacing between checkbox and label text */
+}
+
+.unique-filter-sidebar {
+  /* Existing styles */
+  box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+  border-radius: 10px;
+  /* Add any additional styles you prefer */
+}
+
+</style>
+
+{% endblock %}

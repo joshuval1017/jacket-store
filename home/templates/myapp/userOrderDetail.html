@@ -1,0 +1,102 @@
+
+{%load static%}
+
+<link href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" rel="stylesheet">
+    <link
+    rel="stylesheet"
+    href="{% static './skinapp/assets/css/order.css' %}"
+  />
+</head>
+
+
+    <div class="container">
+        <div class="container">
+            <form action="" method="GET"> <!-- Assuming you handle filtering in the same view -->
+                <div class="form-row align-items-center">
+                    <div class="col-auto">
+                        <label class="sr-only" for="inlineFormInput">Search Orders</label>
+                        <input type="text" class="form-control mb-2" id="inlineFormInput" placeholder="Search Orders" name="search_query">
+                    </div>
+                    <div class="col-auto">
+                        <label class="sr-only" for="inlineFormCustomSelect">Time Period</label>
+                        <select class="custom-select mb-2" id="inlineFormCustomSelect" name="time_period">
+                            <option selected>Choose time period...</option>
+                            <option value="3_months">Past 3 months</option>
+                            <option value="6_months">Past 6 months</option>
+                            <option value="1_year">Past year</option>
+                        </select>
+                    </div>
+                    <div class="col-auto">
+                        <label class="sr-only" for="inlineFormCustomSelectPref">Order Status</label>
+                        <select class="custom-select mb-2" id="inlineFormCustomSelectPref" name="status">
+                            <option value="all">All</option>
+                            {% for status_value, status_name in order_statuses %}
+                            <option value="{{ status_value }}">{{ status_name }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                    <div class="col-auto">
+                        <button type="submit" class="btn btn-primary mb-2">Filter</button>
+                    </div>
+                </div>
+            </form>
+            <article class="card">
+                <header class="card-header"> My Orders / Tracking </header>
+               
+                     {% for order in orders %}
+                    <ul class="row">
+                        {% for item in order.items.all %}
+            <li class="col-md-12"> <!-- Adjusted to use full width for each item row -->
+                <div class="itemside mb-3">
+                    <div class="aside"><img src="{{ item.product.image.url }}" class="img-sm border"></div>
+                    <div class="info align-self-center">
+                        <div class="row"> <!-- Added row for product details -->
+                            <div class="col-md-4"> <!-- Column for the product name -->
+                                <p class="title">{{ item.product.name }}</p>
+                            </div>
+                            <div class="col-md-4"> <!-- Column for the quantity -->
+                                <p class="title">Quantity: {{ item.quantity }}</p>
+                            </div>
+                            <div class="col-md-4"> <!-- Column for the price -->
+                                <span class="text-muted">Price: RS.{{ item.price }}</span>
+                            </div>
+                            <div class="col-md-4"> <!-- Column for the price -->
+                                <span class="text-muted">Order status:  {{ item.order_status}}</span>
+                                {% if  item.order_status == "order processing"  or  item.order_status == "order recieved" %}
+                                <a href="{% url 'skinapp:cancel_order_item' item.id %}">
+                                    <button class="btn btn-secondary">Cancel Order</button>
+                                </a>
+                            {% endif %}
+                            <!-- Show Return Order Button only if the order status is "order completed" -->
+                            {% if item.order_status == "order completed" %}
+                                <a href="{% url 'skinapp:return_order_item' item.id %}">
+                                    <button class="btn btn-secondary">Return Order</button>
+                                </a>
+                            {% endif %}
+                        
+                        </div>
+                    </div>
+                </div>
+            </li>
+            {% endfor %}
+                    </ul>
+                    <div class="d-flex justify-content-end">
+                       <a href="{% url 'skinapp:download_invoice' order.id %}"> <button class="btn btn-primary mx-2" onclick="location.href='">Download Invoice</button></a>
+                        <a href="{% url 'skinapp:trackOrder' order.id %}">
+                            <button class="btn btn-secondary">Track Order</button>
+                        </a>
+                        
+                    </div>
+                  
+                    <hr>
+                    {% endfor %}
+                    <a href="/" class="btn btn-warning" data-abc="true"> <i class="fa fa-chevron-left"></i> Back to shopping</a>
+                </div>
+            </article>
+        </div>
+    </div>
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.bundle.min.js"></script>
+

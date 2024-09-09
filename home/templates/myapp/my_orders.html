@@ -1,0 +1,65 @@
+
+
+
+{% extends 'myapp/Base.html' %}
+{% load static %}
+{% block title %} Purchase{% endblock %}
+
+{% block body %}
+
+<br><br><br><br>
+
+<div class="container mt-5">
+    <h2>My Orders</h2>
+    <hr>
+
+    {% if user_orders %}
+        <div class="row">
+            {% for order in user_orders %}
+                <div class="col-md-6">
+                    <div class="card mb-4">
+                        <div class="card-body">
+                            <h5 class="card-title">Order #{{ order.id }}</h5>
+                            <p class="card-text">Total: ${{ order.total }}</p>
+                            <p class="card-text">Status: {{ order.order_status }}</p>
+                            <p class="card-text">Created At: {{ order.created_at }}</p>
+                            <p class="card-text">Address: {{ order.address }}</p>
+                            <p class="card-text">Mobile: {{ order.mobile }}</p>
+                            <!-- You can customize this section based on your order details -->
+<!-- Display Product Details -->
+<h5 class="mt-3">Products:</h5>
+<ul class="list-group">
+    {% for cart_product in order.cart.cartproduct_set.all %}
+        <li class="list-group-item">
+            <div class="row">
+                <div class="col-md-2">
+                    <img   src="{{cart_product.product.image.url}}" alt="{{ cart_product.product.p_name }}" class="img-fluid">
+                </div>
+                <div class="col-md-8">
+                    <p>{{ cart_product.product.name }}</p>
+                    <p>Quantity: {{ cart_product.quantity }}</p>
+                    <p>Price: ${{ cart_product.rate }}</p>
+                </div>
+            </div>
+        </li>
+    {% endfor %}
+</ul>
+<a href="{% url 'clothapp:download_invoice' order.id %}" class="btn btn-primary mt-3">Download Invoice</a>
+
+<!-- 
+                            <!-- Add a link to view order details if needed -->
+                           
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    {% else %}
+        <p>No orders found.</p>
+    {% endif %}
+
+</div>
+
+<br><br><br><br><br>
+
+{% endblock %}

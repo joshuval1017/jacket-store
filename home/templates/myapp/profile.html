@@ -1,0 +1,78 @@
+{% extends 'myapp/Base.html' %}
+
+{% load static %}
+
+{% block body %}
+
+
+<style>
+  body {
+    font-family: 'Arial', sans-serif;
+    background-color: #f4f4f4;
+    margin: 0;
+    padding: 0;
+  }
+
+  .grid-container {
+    max-width: 800px;
+    margin: 20px auto;
+    overflow: hidden;
+    background-color: #fff;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    border-radius: 10px;
+  }
+
+  .grid-container .row::after {
+    content: "";
+    clear: both;
+    display: table;
+  }
+
+  .grid-container .col {
+    width: 48%;
+    float: left;
+    margin: 1%;
+    box-sizing: border-box;
+    background-color: #f9f9f9;
+    padding: 20px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    transition: background-color 0.3s ease;
+  }
+
+  .grid-container .col:hover {
+    background-color: #e0e0e0;
+  }
+
+  .grid-container h2 {
+    color: #333;
+    margin-bottom: 15px;
+  }
+
+  .grid-container p {
+    color: #666;
+  }
+</style>
+
+
+<div class="grid-container">
+  <div class="row">
+    
+    <div class="col">
+      {% comment %} <a href="/profile"> <h2>Your orders</h2></a> {% endcomment %}
+     <a href="#"><h2>Your orders</h2></a> 
+
+      <p>Check your recent orders and their status. Track your packages and manage your purchases.</p>
+    </div>
+
+    <div class="col">
+      {% comment %} <a href="/profile"> <h2>Your orders</h2></a> {% endcomment %}
+   <a href="{% url 'clothapp:EditProfile' %}"><h2>Your profile</h2></a> 
+
+      <p>Edit or Reset Password, profile etc.</p>
+    </div>
+  </div>
+</div>
+
+
+{% endblock %}

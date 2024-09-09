@@ -1,0 +1,114 @@
+{% extends 'skinapp/Base.html' %}
+
+{% load static %}
+
+{% block body %}
+<style>
+    .shipping-form-container {
+      max-width: 400px;
+      background-color: #fff;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+      border-radius: 10px;
+      padding: 20px;
+      margin: 0 auto; /* Added to center the form */
+    }
+
+    .shipping-form-container h2 {
+      text-align: center;
+    }
+
+    .shipping-form-container form {
+      margin-top: 20px;
+    }
+
+    .shipping-form-container label {
+      display: block;
+      margin-bottom: 8px;
+      font-weight: bold;
+    }
+
+    .shipping-form-container input, .shipping-form-container select {
+      width: 100%;
+      padding: 12px;
+      margin-bottom: 20px;
+      box-sizing: border-box;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+    }
+
+    .shipping-form-container button {
+      background-color: #4CAF50;
+      color: #fff;
+      padding: 15px 20px;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      font-size: 16px;
+      font-weight: bold;
+      width: 100%;
+    }
+
+    .shipping-form-container button:hover {
+      background-color: #45a049;
+    }
+
+    /* Optional: Style for form errors */
+    .shipping-form-container .error-message {
+      color: #ff0000;
+      margin-top: 5px;
+    }
+</style>
+
+<div class="shipping-form-container">
+  <h2>Edit Shipping Address</h2>
+  <form action="{% url 'skinapp:EditAddress' %}" method="POST">
+    {% csrf_token %}
+
+    <label for="address">Address:</label>
+    <input type="text" name="address1" id="address" value="{{ a.address_line_1 }}">
+    {% if errors.address_error %}
+        <div class="error">{{ errors.address_error }}</div>
+    {% endif %}
+
+    <label for="address">Address:</label>
+    <input type="text" name="address2" id="address" value="{{ a.address_line_2 }}">
+    {% if errors.address_error %}
+        <div class="error">{{ errors.address_error }}</div>
+    {% endif %}
+
+    <label for="city">City:</label>
+    <input type="text" name="city" id="city" value="{{ a.city }}">
+    {% if errors.city_error %}
+        <div class="error">{{ errors.city_error }}</div>
+    {% endif %}
+
+    <label for="postalCode">Postal Code:</label>
+    <input type="text" name="zip_code" id="postalCode" value="{{ a.zip_code }}">
+    {% if errors.postal_code_error %}
+        <div class="error">{{ errors.postal_code_error }}</div>
+    {% endif %}
+
+    <label for="mobile">mobile:</label>
+    <input type="text" name="mobile" id="country" value="{{ a.mobile}}">
+    {% if errors.country_error %}
+        <div class="error">{{ errors.mobile_error }}</div>
+    {% endif %}
+
+    <button type="submit">Submit</button>
+</form>
+
+<style>
+    .error {
+        color: red;
+        font-size: 0.8em;
+        margin-top: 5px;
+    }
+</style>
+
+
+</div>
+
+
+  
+  {% endblock %}
+  

@@ -1,0 +1,118 @@
+{% extends 'myapp/AdminBase.html' %}
+
+{% block body %}
+<style>
+  <style>
+    /* Adjustments for maximizing width */
+    .sales-boxes {
+        display: flex;
+        flex-direction: column;
+        width: 100%;
+        /* If your layout allows, ensure no unnecessary padding/margin on the sides */
+        margin: 0;
+        padding: 0;
+    }
+
+    .recent-sales {
+        flex-grow: 1;
+        padding: 20px;
+        box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+        background-color: #ffffff;
+        margin-bottom: 20px;
+        /* Adjust width here if necessary, considering viewport width */
+        width: 100%; /* Or you could try '95vw' to make it closer to the viewport width */
+        /* Ensure there's no max-width limiting the expansion */
+    }
+
+    table {
+        width: 100%;
+        border-collapse: collapse;
+        /* Ensure table layout is set to auto to allow for natural expansion */
+        table-layout: auto; /* This can help with column width adjustments */
+    }
+
+    th, td {
+        text-align: left;
+        padding: 8px;
+        border-bottom: 1px solid #eee;
+    }
+
+    th {
+        background-color: #f5f5f5;
+    }
+
+    /* Styles for buttons remain the same */
+
+    /* Additional styles */
+    .custom-btn-edit, .custom-btn-delete {
+        display: inline-block;
+        padding: 10px 20px;
+        color: white;
+        text-align: center;
+        text-decoration: none;
+        font-size: 16px;
+        margin: 4px 2px;
+        transition-duration: 0.4s;
+        cursor: pointer;
+        border-radius: 5px;
+        border: none;
+    }
+
+    .custom-btn-edit {
+        background-color: blue;
+    }
+
+    .custom-btn-edit:hover {
+        background-color: darkblue;
+    }
+
+    .custom-btn-delete {
+        background-color: red;
+    }
+
+    .custom-btn-delete:hover {
+        background-color: darkred;
+    }
+
+    /* Responsive adjustments */
+    @media (max-width: 768px) {
+        .sales-boxes {
+            flex-direction: column;
+        }
+    }
+    .filter-section h4 {
+      margin-right: 10px;
+  }
+  
+  .filter-section > div {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      align-items: center;
+  }
+  
+  .filter-section div {
+      display: flex;
+      align-items: center;
+  }
+</style>
+<div class="filter-section" style="margin-bottom: 20px;">
+  
+  <div style="display: flex; flex-wrap: wrap; gap: 10px;">
+      {% for status, display in ORDER_STATUS %}
+      <div style="display: flex; align-items: center;">
+          <input type="checkbox" class="status-filter" value="{{ status }}" id="filter-{{ status }}" checked>
+          <label for="filter-{{ status }}" style="margin-bottom: 0;">{{ display }}</label>
+      </div>
+      {% endfor %}
+  </div>
+</div>
+
+
+
+<!-- Script for handling AJAX form submission -->
+>
+
+
+  
+{% endblock %}

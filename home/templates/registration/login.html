@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Login Page</title>
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="{% static 'css/style.css' %}">
+  <style>
+    body {
+      background-image: url('');
+      background-size: cover;
+      background-position: center;
+      background-repeat: no-repeat;
+      font-family: 'Roboto', sans-serif;
+      margin: 0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      color: #333;
+    }
+    
+    .form-container {
+      max-width: 400px;
+      width: 100%;
+      padding: 2rem;
+      background: rgba(255, 255, 255, 0.9);
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+      border-radius: 8px;
+      text-align: center;
+      animation: fadeIn 1s ease-in-out;
+    }
+    
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+    
+    .form-container h2 {
+      margin-bottom: 1rem;
+      font-weight: 500;
+      color: #007bff;
+    }
+    
+    .form-group {
+      margin-bottom: 1rem;
+      text-align: left;
+    }
+    
+    .form-group label {
+      display: block;
+      margin-bottom: 0.5rem;
+      font-weight: 500;
+    }
+    
+    .form-field {
+      width: 100%;
+      padding: 10px;
+      margin-bottom: 10px;
+      border: 1px solid #ddd;
+      border-radius: 5px;
+      font-size: 1rem;
+      transition: border-color 0.3s ease;
+    }
+    
+    .form-field:focus {
+      border-color: #007bff;
+      outline: none;
+    }
+    
+    .submit-btn {
+      width: 100%;
+      padding: 10px;
+      background-color: #007bff;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      font-size: 1rem;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+    
+    .submit-btn:hover {
+      background-color: #0056b3;
+    }
+    
+    .link {
+      margin-top: 1rem;
+    }
+    
+    .link span {
+      display: block;
+      margin-top: 0.5rem;
+    }
+    
+    .link a {
+      color: #007bff;
+      text-decoration: none;
+      transition: color 0.3s ease;
+    }
+    
+    .link a:hover {
+      color: #0056b3;
+    }
+    
+    .alert {
+      color: #e74c3c;
+      font-size: 0.9rem;
+    }
+  </style>
+</head>
+<body>
+  <div class="form-container">
+    <h2>Login</h2>
+    <form method="POST">
+      {% csrf_token %}
+      {% for field in form %}
+        <div class="form-group">
+          <label>{{ field.label }}</label>
+          {% if field.name == 'password' %}
+            <input type="password" class="form-field" name="{{ field.name }}" autocomplete="off">
+          {% else %}
+            <input type="{{ field.type }}" class="form-field" name="{{ field.name }}">
+          {% endif %}
+          {% if field.help_text %}
+            <small class="form-text text-muted">{{ field.help_text }}</small>
+          {% endif %}
+          {% for error in field.errors %}
+            <div class="alert alert-danger">{{ error }}</div>
+          {% endfor %}
+        </div>
+      {% endfor %}
+      <button type="submit" class="submit-btn">Login</button>
+    </form>
+    
+    <div class="link">
+      <span>Don't have an account? <a href="/signup">Sign Up</a></span>
+      <span>Forget Password? <a href="{% url 'clothapp:forget_password' %}">click here</a></span>
+    </div>
+    <br><br>
+    <div class="link">
+      <span>Admin Login <a href="/AdminLogin">Admin Login</a></span>
+    </div>
+  </div>
+</body>
+</html>

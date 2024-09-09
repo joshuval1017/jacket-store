@@ -1,0 +1,364 @@
+{% extends 'myapp/Base.html' %}
+{%load static%}
+{%block body%}
+<head>
+  
+    <!-- Stylesheet -->
+    <link rel="stylesheet"  href="{% static './skinapp/assets/css/base.css' %}">
+    <!---Boxicons CDN Setup for icons-->
+    <link href='https://unpkg.com/boxicons@2.1.2/css/boxicons.min.css' rel='stylesheet'>
+  
+</head>
+
+
+{% if messages %}
+    <div id="messages" style="display:none;">
+        {% for message in messages %}
+            <div class="{{ message.tags }}">{{ message }}</div>
+        {% endfor %}
+    </div>
+{% endif %}
+
+<div class="sp-container-product">
+    <div class="sp-single-product">
+        <div class="sp-row">
+            <div class="sp-col-6">
+                <div class="sp-product-image">
+                    <div class="sp-product-image-main">
+                        <img src={{product.image.url}} style="width: 100%; max-width: 400px; border-radius: 8px; box-shadow: 0 4px 8px rgba(0,0,0,0.1);">
+
+                    </div>
+                   
+                </div>
+            </div>
+            <div class="sp-col-6">
+                <div class="sp-breadcrumb">
+                   
+                    <span class="sp-active">Material:{{product.material}}</span>
+                    <span class="sp-active">Color:{{product.color}}</span>
+                    <span class="sp-active">Ocassion:{{product.occasion}}</span>
+                </div>
+
+                <div class="sp-product">
+                    <div class="sp-product-title">
+                        <h2><b>{{product.name}}</b></h2>
+                    </div>
+                    <div class="sp-product-rating-container" style="display: flex; align-items: center;">
+                        <div class="sp-product-rating">
+                          {% if a.rating == 1 %}
+                          <ion-icon name="star"></ion-icon>
+                          {% elif a.rating == 2 %}
+                          <ion-icon name="star"></ion-icon>
+                          <ion-icon name="star"></ion-icon>
+                          {% elif a.rating == 3 %}
+                          <ion-icon name="star"></ion-icon>
+                          <ion-icon name="star"></ion-icon>
+                          <ion-icon name="star"></ion-icon>
+                          {% elif a.rating == 4 %}
+                          <ion-icon name="star"></ion-icon>
+                          <ion-icon name="star"></ion-icon>
+                          <ion-icon name="star"></ion-icon>
+                          <ion-icon name="star"></ion-icon>
+                          {% elif a.rating == 5 %}
+                          <ion-icon name="star"></ion-icon>
+                          <ion-icon name="star"></ion-icon>
+                          <ion-icon name="star"></ion-icon>
+                          <ion-icon name="star"></ion-icon>
+                          <ion-icon name="star"></ion-icon>
+                          {% endif %}
+                            <span class="sp-review">{{a.numReviews}}</span>
+                        </div>
+
+
+
+                       
+                    </div>
+                    
+
+
+                    <div class="sp-product-price">
+                        
+                        <span>RS. {{product.price}}</span>
+                    </div>
+
+                    <div class="sp-product-details" >
+                        <h3>Description</h3>
+                        <p>{{product.description}}</p>
+                    </div>
+                    {% if product.stock > 0 %}
+                    <form  id="add-to-cart-form" action="{% url 'clothapp:addtocart' id=product.id %}" method="POST" >
+
+                      {% csrf_token %}
+                      <div class="sp-product-size">
+                        <h4>Size</h4>
+                        <div class="size-selection">
+                            <select name="size" id="size-select" class="size-select">
+                                <option value="S">S</option>
+                                <option value="M">M</option>
+                                <option value="XL">XL</option>
+                                <option value="XXL">XXL</option>
+                            </select>
+                        </div>
+                    </div>
+                    
+                    <span class="sp-divider"></span>
+
+                    <div class="sp-product-btn-group" style="display: flex; gap: 10px;">
+                    
+                      <a>  <div class="sp-button sp-add-cart" style="margin-right: 10px;"><button type="submit"><i class='bx bxs-cart'></i> Add to Cart</button></div></a>
+                    
+                          
+                        </div></a>
+                    </div>
+                    
+                </form>
+                 
+          {% else %}
+          <p class="out-of-stock-message">Out of Stock</p>
+      {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+
+
+
+
+    <!--script-->
+    <script src="script.js"></script>
+
+
+
+<style>
+  .out-of-stock-message {
+    margin-top: 20px; /* Adds space above the out-of-stock message */
+    font-weight: bold;
+    color: #ff0000; /* Example color: red */
+}
+    .rev-rating {
+        display: flex;
+        align-items: center; /* Centers items vertically in case the container's height is more than that of the content */
+        justify-content: center; /* Align items to the start of the container */
+      }
+      
+      ion-icon {
+        /* Ensure there's a bit of margin between icons if they're too close */
+        margin-right: 4px; /* Adjust as necessary */
+      }
+      
+    /* The Modal (background) */
+.modal {
+  display: none; /* Hidden by default */
+  position: fixed; /* Stay in place */
+  z-index: 1; /* Sit on top */
+  left: 0;
+  top: 0;
+  width: 100%; /* Full width */
+  height: 100%; /* Full height */
+  overflow: auto; /* Enable scroll if needed */
+  background-color: rgb(0,0,0); /* Fallback color */
+  background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+}
+
+/* Modal Content */
+.modal-content {
+  background-color: #fefefe;
+  margin: 10% auto; /* 10% from the top and centered */
+  padding: 20px;
+  border: 1px solid #888;
+  height:50%;
+  width: 50%; /* Could be more or less, depending on screen size */
+}
+
+/* The Close Button */
+.close-btn {
+  color: #aaa;
+  float: right;
+  font-size: 28px;
+  font-weight: bold;
+}
+
+.close-btn:hover,
+.close-btn:focus {
+  color: black;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+/* The Star Rating */
+.star-rating {
+  direction: rtl; /* Right to left */
+  font-size: 30px;
+}
+
+.star-rating input[type="radio"] {
+  display: none;
+}
+
+.star-rating label {
+  color: #ddd; /* Light gray star color */
+  cursor: pointer;
+}
+
+.star-rating input[type="radio"]:checked ~ label {
+  color: #ffc700; /* Gold star color */
+}
+
+/* Textarea and Submit button */
+textarea {
+  width: calc(100% - 20px);
+  margin: 10px 0;
+  padding: 10px;
+}
+
+.submit-btn {
+  background-color: #4CAF50; /* Green */
+  color: white;
+  padding: 10px 20px;
+  border: none;
+  cursor: pointer;
+}
+
+.submit-btn:hover {
+  background-color: #45a049;
+}
+
+    
+    .rev-section{
+    margin: auto;
+    padding: 0 1rem;
+    max-width: 1100px;
+    text-align: center;
+  }
+  
+  .rev-title{
+    font-size: 2.5rem;
+    text-transform: uppercase;
+    color: var(--dark-color, rgb(50, 50, 50)); /* Fallback if var not defined */
+    margin-bottom: .5rem;
+  }
+  
+  .rev-note{
+    font-size: 1.1rem;
+    color: var(--light-color, rgb(150, 150, 150)); /* Fallback if var not defined */
+    font-style: italic;
+  }
+  
+  .rev-reviews{
+    margin: 2rem auto;
+    display: flex;
+    flex-wrap: wrap;
+  }
+  
+  .rev-review{
+    margin: 0 1rem;
+    min-width: 300px;
+    flex: 1;
+  }
+  
+  .rev-head-review{
+    margin: 1.75rem auto;
+    width: 150px;
+    height: 150px;
+  }
+  
+  .rev-img{
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 50%;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, .25);
+  }
+  
+  .rev-body-review{
+    background-color: var(--background-color, rgb(238, 238, 238));
+    padding: 2.5rem;
+    box-shadow: 2px 2px 10px 3px var(--shadow-color, rgb(225, 225, 225));
+  }
+  
+  .rev-name-review, .rev-place-review, .rev-rating, .rev-desc-review {
+    /* Style adjustments specifically prefixed */
+  }
+  
+  @media (max-width: 678px){
+    .rev-review{
+      margin-top: 1.5rem;
+    }
+  }
+  
+    
+    .quantity-selection {
+        display: flex;
+        align-items: center;
+        flex-shrink: 0; /* Prevents the quantity selection from shrinking */
+      }
+      
+      .quantity-label {
+        font-size: 16px;
+        margin-right: 10px;
+      }
+      
+      .quantity-controls {
+        display: flex;
+        align-items: stretch; /* Adjusted for alignment */
+        background: #f1f1f1; /* Soft background */
+        border-radius: 5px;
+      }
+      
+      .quantity-btn {
+        background-color: #007bff;
+        color: white;
+        border: none;
+        cursor: pointer;
+        font-size: 20px;
+        padding: 10px;
+        transition: background-color 0.2s ease-in-out;
+      }
+      
+      .quantity-btn:hover {
+        background-color: #0056b3;
+      }
+      
+      .quantity-input {
+        text-align: center;
+        font-size: 16px;
+        border: none;
+        background: transparent; /* Blends with the container */
+        width: 50px;
+        padding: 10px;
+      }
+      
+      /* Removing the spin button */
+      .quantity-input::-webkit-outer-spin-button,
+      .quantity-input::-webkit-inner-spin-button {
+        -webkit-appearance: none;
+        margin: 0;
+      }
+      
+      .quantity-input[type=number] {
+        -moz-appearance: textfield;
+      }
+      .centered-button-container {
+        display: grid;
+        place-items: center; /* Center both horizontally and vertically */
+        width: 100%; /* Full width */
+        /* Optional vertical centering */
+        /* height: 100vh; */
+    }
+      
+      .rate-product-btn {
+        /* Button styling */
+        padding: 10px 20px;
+        margin: 0; /* Removes any default margin */
+        cursor: pointer;
+        /* Add more styles as needed */
+      }
+      
+</style>
+
+{%endblock%}

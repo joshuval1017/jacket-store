@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sign Up Page</title>
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="{% static 'css/style.css' %}"> <!-- Assuming you move your CSS to a static file -->
+</head>
+<body>
+  <div class="signup-container">
+    <h2>Sign Up</h2>
+    <form method="POST" class="signup-form">
+      {% csrf_token %}
+      {% for field in form %}
+        <div class="form-group">
+          <label>{{ field.label }}</label>
+          {{ field }}
+          {% if field.help_text %}
+            <small class="form-text text-muted">{{ field.help_text }}</small>
+          {% endif %}
+          {% for error in field.errors %}
+            <div class="alert alert-danger">{{ error }}</div>
+          {% endfor %}
+        </div>
+      {% endfor %}
+      <button type="submit" class="btn btn-primary">Sign Up</button>
+    </form>
+    <div class="link">
+      <span>Already have an account? <a href="/login">Login</a></span>
+    </div>
+  </div>
+  <style>
+    body {
+        font-family: 'Roboto', sans-serif;
+        background-color: #fcfdff;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+        margin: 0;
+        padding: 0;
+        width: 100%;
+        background-attachment: fixed;
+        
+        background-position: center;
+        position: relative;
+        background-repeat: no-repeat;
+      }
+      
+      .signup-container {
+        background-color: #fff;
+        border-radius: 8px;
+        box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        width: 400px;
+        padding: 20px;
+      }
+      
+      .signup-container h2 {
+        color: #333;
+        text-align: center;
+        margin-bottom: 24px;
+      }
+      
+      .form-group {
+        margin-bottom: 20px;
+      }
+      
+      .form-group label {
+        display: block;
+        color: #666;
+        margin-bottom: 8px;
+      }
+      
+      .form-group input, .form-group textarea, .form-group select {
+        width: 100%;
+        padding: 10px;
+        border: 1px solid #ddd;
+        border-radius: 4px;
+        box-sizing: border-box;
+      }
+      
+      .form-group input:focus, .form-group textarea:focus, .form-group select:focus {
+        border-color: #0056b3;
+        outline: none;
+      }
+      
+      .btn-primary {
+        background-color: #8c6148;
+        color: #fff;
+        padding: 10px;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+        width: 100%;
+      }
+      
+      .btn-primary:hover {
+        background-color: #004094;
+      }
+      
+      .link {
+        text-align: center;
+        margin-top: 20px;
+      }
+      
+      .link a {
+        color: #0056b3;
+        text-decoration: none;
+      }
+      
+      .link a:hover {
+        text-decoration: underline;
+      }
+      
+  </style>
+</body>
+</html>

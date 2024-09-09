@@ -1,0 +1,83 @@
+{% extends 'skinapp/Base.html' %}
+{%load static%}
+{%block body%}
+<head>
+
+<script src="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script> 
+<!------ Include the above in your HEAD tag ---------->
+<link rel="stylesheet"  href="{% static './skinapp/assets/css/wishlist.css' %}">
+</head>
+
+	 <div class="cart-wrap">
+		<div class="container">
+	        <div class="row">
+			    <div class="col-md-12">
+			        <div class="main-heading mb-10">My wishlist</div>
+			        <div class="table-wishlist">
+				        <table cellpadding="0" cellspacing="0" border="0" width="100%">
+				        	<thead>
+					        	<tr>
+					        		<th width="45%">Product Name</th>
+					        		<th width="15%">Unit Price</th>
+					        		<th width="15%">Stock Status</th>
+					        		<th width="15%"></th>
+					        		<th width="10%"></th>
+					        	</tr>
+					        </thead>
+					        <tbody>
+					        	<tr>
+                                    {%for i in items%}
+					        		<td width="45%">
+					        			<div class="display-flex align-center">
+		                                    <div class="img-product">
+		                                        <img src="{{i.product.image.url}}" alt="" class="mCS_img_loaded">
+		                                    </div>
+		                                    <div class="name-product">
+		                                        {{i.product.name}}
+		                                    </div>
+	                                    </div>
+	                                </td>
+                                    {%if i.discount%}
+					        		<td width="15%" class="price">RS. {{i.product.discount}}</td>
+                                    {%else%}
+                                    <td width="15%" class="price">RS. {{i.product.price}}</td>
+                                    {%endif%}
+									{%if i.product.countInStock < 1%}
+					        		<td width="15%"><span class="in-stock-box">Out of Stock</span></td>
+									{%else%}
+									<td width="15%"><span class="in-stock-box">In Stock</span></td>
+									{%endif%}
+					        		<td width="15%">
+                                        <form action="{% url 'skinapp:addtocart' id=i.product.id %}" method="POST">
+                                            {% csrf_token %}
+                                            <input type="hidden" name="quantity" value="1">
+                                            <button type="submit" class="round-black-btn small-btn">Add to Cart</button>
+                                        </form>
+                                        
+                                        <td width="10%" class="text-center">
+                                            <a href="{% url 'skinapp:delete_from_wishlist' item_id=i.product.id %}" class="trash-icon">
+                                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+                                                    <path d="M3 6v16c0 1.104.896 2 2 2h14c1.104 0 2-.896 2-2V6H3zm5 14H6V8h2v12zm4 0h-2V8h2v12zm4 0h-2V8h2v12zm2.618-18L15 0H9L7.382 2H0v2h24V2h-6.382z"/>
+                                                </svg>
+                                            </a>
+                                        </td>
+                                    
+
+					        	</tr>
+					        	{%endfor%}
+					        		
+				        	</tbody>
+				        </table>
+				    </div>
+			    </div>
+			</div>
+		</div>
+	</div> 
+    {% for message in messages %}
+<div class="alert alert-{{ message.tags }}" role="alert">
+    {{ message }}
+</div>
+{% endfor %}
+	
+{%endblock%}

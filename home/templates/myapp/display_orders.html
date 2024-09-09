@@ -1,0 +1,122 @@
+{% extends 'myapp/AdminBase.html' %}
+
+{% block title %}All Orders{% endblock %}
+
+{% block body %}
+
+<div class="container">
+    <h2 class="my-4">All Orders</h2>
+    {% for order in orders %}
+    <div class="order-card">
+        <div class="order-header">
+            <span class="order-id">Order ID: {{ order.id }}</span>
+        </div>
+        <div class="order-body">
+            <div class="order-details">
+                <p><b>Customer:</b> {{ order.customer.username }}</p>
+                <p><b>Total:</b> {{ order.total }}</p>
+                <p><b>Status:</b>
+                    <form action="{% url 'clothapp:update_order_status' order.id %}" method="POST">
+                    <select name="status" class="order-status">
+                        {% for status in ORDER_STATUS %}
+                            <option value="{{ status.0 }}" {% if order.order_status == status.0 %}selected{% endif %}>{{ status.1 }}</option>
+                        {% endfor %}
+                    </select>
+                </p>
+                <p><b>Created At:</b> {{ order.created_at }}</p>
+            </div>
+            <div class="product-table">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Product Name</th>
+                            <th>Quantity</th>
+                            <th>Rate</th>
+                            <th>Subtotal</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for item in order.cart.cartproduct_set.all %}
+                        <tr>
+                            <td>{{ item.product.name }}</td>
+                            <td>{{ item.quantity }}</td>
+                            <td>{{ item.rate }}</td>
+                            <td>{{ item.subtotal }}</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <div class="order-footer">
+        
+                {% csrf_token %}
+                <button type="submit" class="update-status-btn">Update Status</button>
+            </form>
+        </div>
+    </div>
+    {% endfor %}
+</div>
+
+<style>
+    .order-card {
+        border: 1px solid #ccc;
+        border-radius: 8px;
+        margin-bottom: 20px;
+        padding: 15px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    }
+
+    .order-header {
+        background-color: #007bff;
+        color: #fff;
+        padding: 10px;
+        border-radius: 8px 8px 0 0;
+    }
+
+    .order-id {
+        font-weight: bold;
+    }
+
+    .order-body {
+        padding: 10px;
+    }
+
+    .order-details {
+        margin-bottom: 20px;
+    }
+
+    .order-status {
+        padding: 5px;
+        border-radius: 5px;
+    }
+
+    .product-table {
+        overflow-x: auto;
+    }
+
+    .product-table table {
+        width: 100%;
+        border-collapse: collapse;
+    }
+
+    .product-table th, .product-table td {
+        border: 1px solid #ddd;
+        padding: 8px;
+    }
+
+    .update-status-btn {
+        background-color: #28a745;
+        color: #fff;
+        border: none;
+        padding: 8px 16px;
+        border-radius: 5px;
+        cursor: pointer;
+    }
+
+    .update-status-btn:hover {
+        background-color: #218838;
+    }
+</style>
+
+{% endblock %}

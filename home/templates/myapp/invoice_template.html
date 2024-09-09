@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Invoice</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            font-size: 14px;
+        }
+        .container {
+            max-width: 800px;
+            margin: 20px auto;
+            padding: 20px;
+            border: 1px solid #ccc;
+        }
+        .header {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        .title {
+            font-size: 24px;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+        .invoice-details {
+            margin-bottom: 20px;
+        }
+        .invoice-details p {
+            margin: 5px 0;
+        }
+        .order-details {
+            margin-bottom: 20px;
+        }
+        .order-details table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        .order-details th, .order-details td {
+            padding: 8px;
+            border-bottom: 1px solid #ddd;
+            text-align: left;
+        }
+        .order-details img {
+            max-width: 50px;
+            height: auto;
+        }
+        .footer {
+            text-align: center;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h2 class="title">Invoice</h2>
+            <p>Invoice number: {{ order.id }}</p>
+            <p>Date: {{ order.created_at }}</p>
+        </div>
+        <div class="invoice-details">
+            <p><strong>Customer:</strong> {{ order.customer.username }}</p>
+            <p><strong>Address:</strong> {{ order.address }}</p>
+            <p><strong>Mobile:</strong> {{ order.mobile }}</p>
+            <p><strong>Status:</strong> {{ order.order_status }}</p>
+        </div>
+        <div class="order-details">
+            <h3>Order Details</h3>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Product</th>
+                        <th>Quantity</th>
+                        <th>Price</th>
+                        <th>Total</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for cart_product in order.cart.cartproduct_set.all %}
+                        <tr>
+                            <td>{{ cart_product.product.name }}</td>
+                            <td>{{ cart_product.quantity }}</td>
+                            <td>{{ cart_product.rate }}</td>
+                            <td>{{ cart_product.subtotal }}</td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+                <tfoot>
+                    <tr>
+                        <th colspan="4" style="text-align:right;">Final Total:</th>
+                        <th>{{ order.total }}</th>
+                    </tr>
+                </tfoot>
+            </table>
+        </div>
+        <div class="footer">
+            <p>Thank you for your purchase!</p>
+        </div>
+    </div>
+</body>
+</html>

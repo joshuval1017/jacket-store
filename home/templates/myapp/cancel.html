@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Checkout Canceled</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-+0n0xVW2eSR5OomGNYDnhzAbDsOXxcvSN1TPprVMTNDbiYZCxYbOOl7+AMvyTG2x" crossorigin="anonymous">
+    <style>
+        body {
+            background-color: #f8f9fa;
+            margin-top: 50px;
+        }
+        .container {
+            background-color: white;
+            padding: 40px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
+            text-align: center;
+        }
+        .cancel-icon {
+            color: #dc3545; /* Bootstrap danger red */
+            font-size: 48px;
+            margin-bottom: 20px;
+        }
+        .footer {
+            text-align: center;
+            margin-top: 40px;
+            font-size: 0.9rem;
+            color: #6c757d; /* Bootstrap secondary text color */
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="cancel-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" fill="currentColor" class="bi bi-x-circle-fill" viewBox="0 0 16 16">
+              <path d="M8 0a8 8 0 1 0 0 16A8 8 0 0 0 8 0zm3.354 10.646a.5.5 0 0 1 0 .708l-1.415 1.415a.5.5 0 0 1-.708 0L8 9.414l-1.231 1.231a.5.5 0 0 1-.708 0l-1.415-1.415a.5.5 0 0 1 0-.708L6.586 8 5.354 6.769a.5.5 0 0 1 0-.708l1.415-1.415a.5.5 0 0 1 .708 0L8 6.586l1.231-1.231a.5.5 0 0 1 .708 0l1.415 1.415a.5.5 0 0 1 0 .708L9.414 8l1.231 1.231z"/>
+            </svg>
+        </div>
+        <h3>Checkout Canceled</h3>
+        <h5>Forgot to add something to your cart?</h5>
+        <p>Shop around then come back to pay!</p>
+        <div class="footer">
+            <p>Return to <a href="{% url 'skinapp:index' %}">shopping</a>.</p>
+        </div>
+    </div>
+</body>
+</html>

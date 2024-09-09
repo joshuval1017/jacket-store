@@ -1,0 +1,115 @@
+<!------ Include Bootstrap and jQuery in your HEAD tag ---------->
+<link href="//netdna.bootstrapcdn.com/bootstrap/3.1.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+<script src="//netdna.bootstrapcdn.com/bootstrap/3.1.0/js/bootstrap.min.js"></script>
+<script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
+
+<div class="container">
+    <div class="row">
+        <div class="col-xs-12">
+            <div class="invoice-title">
+                <h2>Invoice</h2><h3 class="pull-right">Order # {{ order.id }}</h3>
+            </div>
+            <hr>
+            <div class="row">
+                <div class="col-xs-6">
+                    <address>
+                    <strong>Billed To:</strong><br>
+                        {{ order.customer.first_name }} {{ order.customer.last_name }}<br>
+                        {{ order.address_line1 }}<br>
+                        {{ order.address_line2 }}<br>
+                        {{ order.city }}, {{ order.postal_code }}
+                    </address>
+                </div>
+                <div class="col-xs-6 text-right">
+                    <address>
+                    <strong>Shipped To:</strong><br>
+                        Same as Billed Address
+                    </address>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-xs-6">
+                    <address>
+                        <strong>Payment Method:</strong><br>
+                        {{ order.payment_method }}<br>
+                        {{ order.customer.email }}
+                    </address>
+                </div>
+                <div class="col-xs-6 text-right">
+                    <address>
+                        <strong>Order Date:</strong><br>
+                        {{ order.created_at }}<br><br>
+                    </address>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="row">
+        <div class="col-md-12">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h3 class="panel-title"><strong>Order summary</strong></h3>
+                </div>
+                <div class="panel-body">
+                    <div class="table-responsive">
+                        <table class="table table-condensed">
+                            <thead>
+                                <tr>
+                                    <td><strong>Item</strong></td>
+                                    <td class="text-center"><strong>Price</strong></td>
+                                    <td class="text-center"><strong>Quantity</strong></td>
+                                    <td class="text-right"><strong>Totals</strong></td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for item in order.items.all %}
+                                <tr>
+                                    <td>{{ item.product.name }}</td>
+                                    <td class="text-center">${{ item.price }}</td>
+                                    <td class="text-center">{{ item.quantity }}</td>
+                                    {% comment %} <td class="text-right">${{ item.quantity * item.price }}</td> {% endcomment %}
+                                </tr>
+                                {% endfor %}
+                                <tr>
+                                    <td></td>
+                                    <td></td>
+                                    <td class="text-center"><strong>Subtotal</strong></td>
+                                    <td class="text-right">RS.{{ order.total }}</td>
+                                </tr>
+                                <tr>
+                                    <td></td>
+                                    <td></td>
+                                    <td class="text-center"><strong>Shipping</strong></td>
+                                    <td class="text-right">Calculated at Checkout</td>
+                                </tr>
+                                <tr>
+                                    <td></td>
+                                    <td></td>
+                                    <td class="text-center"><strong>Total</strong></td>
+                                    <td class="text-right">RS.{{ order.total }}</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    .invoice-title h2, .invoice-title h3 {
+        display: inline-block;
+    }
+    
+    .table > tbody > tr > .no-line {
+        border-top: none;
+    }
+    
+    .table > thead > tr > .no-line {
+        border-bottom: none;
+    }
+    
+    .table > tbody > tr > .thick-line {
+</style>

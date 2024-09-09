@@ -1,0 +1,157 @@
+
+{% extends 'myapp/SupplierBase.html' %}
+
+{%block body%}
+<br><br>
+      <div class="sales-boxes">
+        <div class="recent-sales box">
+          
+          <br><br><br>
+          <div class="sales-details-table">
+            <table>
+              <thead>
+                  <tr>
+                      <th>Name</th>
+                      <th>Material</th>
+                      <th>Color</th>
+                      <th>Ocassion</th>
+                      <th>Price</th>
+                      <th>Action</th>
+                     
+                   
+                     
+                  </tr>
+              </thead>
+              <tbody>
+                  {% for product in products %}
+                      <tr>
+                          <td>{{ product.name }}</td>
+                          <td>{{ product.material }}</td>
+                          <td>{{ product.color }}</td>
+                          <td>{{ product.occasion }}</td>
+                          <td>RS. {{ product.price }}</td>
+                          
+                          
+                         
+                          
+                          <td>
+                          
+                            <form action="{% url 'clothapp:update_stock' product.id %}" method="post">
+                                {% csrf_token %}
+                                <input type="number" name="new_stock" required>
+                                <button type="submit" class="custom-btn custom-btn-edit">Update Stock</button>
+                            </form>
+                        </td>
+                      </tr>
+                  {% endfor %}
+              </tbody>
+          </table>
+          
+        </div>
+          
+        </div>
+       
+    </div>
+  </section>
+
+  <script>
+   let sidebar = document.querySelector(".sidebar");
+let sidebarBtn = document.querySelector(".sidebarBtn");
+sidebarBtn.onclick = function() {
+  sidebar.classList.toggle("active");
+  if(sidebar.classList.contains("active")){
+  sidebarBtn.classList.replace("bx-menu" ,"bx-menu-alt-right");
+}else
+  sidebarBtn.classList.replace("bx-menu-alt-right", "bx-menu");
+}
+ </script>
+<style>
+  .custom-btn {
+    display: inline-block;
+    padding: 10px 20px;
+    color: white;
+    text-align: center;
+    text-decoration: none;
+    font-size: 16px;
+    margin: 4px 2px;
+    transition-duration: 0.4s;
+    cursor: pointer;
+    border-radius: 5px;
+}
+
+.custom-btn-edit {
+    background-color: blue;
+    border: none;
+}
+
+.custom-btn-edit:hover {
+    background-color: darkblue;
+}
+
+.custom-btn-delete {
+    background-color: red;
+    border: none;
+}
+
+.custom-btn-delete:hover {
+    background-color: darkred;
+}
+
+  /* Layout for the container */
+  .sales-boxes {
+      display: flex;
+      flex-direction: row;
+      width: 100%;
+  }
+  
+  /* Expand recent-sales to take available space */
+  .recent-sales {
+      flex-grow: 1; /* Grow to use available space */
+      padding: 20px; /* Add padding for aesthetics */
+      margin-right: 20px; /* Adjust based on your layout */
+      box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1); /* Optional: adds shadow for depth */
+      background-color: #ffffff; /* Assuming a light theme */
+  }
+  
+  /* Style for the table to make it fully responsive within its container */
+  .recent-sales table {
+      width: 100%;
+      border-collapse: collapse;
+  }
+  
+  .recent-sales th, .recent-sales td {
+      text-align: left;
+      padding: 8px;
+      border-bottom: 1px solid #eee; /* Light line for separation */
+  }
+  
+  /* Table header specific styles */
+  .recent-sales th {
+      background-color: #f5f5f5;
+  }
+  
+  /* Button styles */
+  .button a {
+      display: inline-block;
+      padding: 10px 20px;
+      background-color: #4CAF50;
+      color: white;
+      text-decoration: none;
+      border-radius: 5px;
+  }
+  
+  /* Responsive Design */
+  @media (max-width: 768px) {
+      .sales-boxes {
+          flex-direction: column;
+      }
+  
+      .recent-sales {
+          margin-right: 0; /* Remove margin in smaller screens */
+      }
+  }
+  
+  
+    
+</style>
+{%endblock%}

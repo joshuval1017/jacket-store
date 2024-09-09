@@ -1,0 +1,284 @@
+
+{% extends 'myapp/AdminBase.html' %}
+
+{%block body%}
+        <div class="sales-boxes">
+          <div class="recent-sales box">
+           
+
+            <div class="title">Edit Product
+            
+          </div>
+          
+          <form action="" method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+    <div>
+        <label for="productName">Product Name:</label>
+        <input type="text" id="productName" name="name" value="{{ up.name }}" required>
+    </div>
+    <div>
+        <label for="productImage">Current Image:</label>
+        {% if up.image %}
+            <img src="{{ up.image.url }}" alt="Current Image" style="max-width: 200px;">
+        {% else %}
+            <p>No image available</p>
+        {% endif %}
+    </div>
+    <div>
+        <label for="newProductImage">New Image:</label>
+        <input type="file" id="newProductImage" name="new_image">
+    </div>
+    <div>
+        <label for="material">Material:</label>
+        <select id="material" name="material" required>
+            <option value="">Select Material</option>
+            {% for material in materials %}
+                <option value="{{ material.id }}" {% if material.id == up.material.id %} selected {% endif %}>{{ material.name }}</option>
+            {% endfor %}
+        </select>
+    </div>
+    <div>
+        <label for="color">Color:</label>
+        <select id="color" name="color" required>
+            <option value="">Select Color</option>
+            {% for color in colors %}
+                <option value="{{ color.id }}" {% if color.id == up.color.id %} selected {% endif %}>{{ color.name }}</option>
+            {% endfor %}
+        </select>
+    </div>
+    <div>
+        <label for="occasion">Occasion:</label>
+        <select id="occasion" name="occasion" required>
+            <option value="">Select Occasion</option>
+            {% for occasion in occasions %}
+                <option value="{{ occasion.id }}" {% if occasion.id == up.occasion.id %} selected {% endif %}>{{ occasion.name }}</option>
+            {% endfor %}
+        </select>
+    </div>
+    <div>
+        <label for="productPrice">Price:</label>
+        <input type="number" id="productPrice" name="price" step="0.01" value="{{ up.price }}" required>
+    </div>
+    <div>
+        <label for="productDescription">Description:</label>
+        <textarea id="productDescription" name="description" required>{{ up.description }}</textarea>
+    </div>
+    <button type="submit">Update Product</button>
+        </form>
+           
+          </div>
+
+         
+      </div>
+    </section>
+
+    <script>
+      let sidebar = document.querySelector(".sidebar");
+      let sidebarBtn = document.querySelector(".sidebarBtn");
+      sidebarBtn.onclick = function () {
+        sidebar.classList.toggle("active");
+        if (sidebar.classList.contains("active")) {
+          sidebarBtn.classList.replace("bx-menu", "bx-menu-alt-right");
+        } else sidebarBtn.classList.replace("bx-menu-alt-right", "bx-menu");
+      };
+    </script>
+    <script>
+      document.addEventListener("DOMContentLoaded", function () {
+        // Assuming there's only one form on the page or targeting the first form
+        var form = document.querySelector('form');
+    
+        form.addEventListener('submit', function (e) {
+          var hasError = false;
+    
+          // Validate Product Name: must not be only numbers
+          var productName = document.getElementById('productName').value;
+          if (/^\d+$/.test(productName)) { // Using regex to test if the value is only digits
+            alert("Product Name must not be only numbers.");
+            hasError = true;
+          }
+          var description = document.getElementById('description').value;
+          if (/^\d+$/.test(description)) { // Using regex to test if the value is only digits
+            alert("Description must not be only numbers.");
+            hasError = true;
+          }
+          // Additional validations can follow the same pattern...
+    
+          if (hasError) {
+            e.preventDefault(); // Prevent form submission if there's an error
+          }
+        });
+      });
+
+// Get elements
+var popup = document.getElementById("newCategoryPopup");
+var btn = document.getElementById("createCategoryBtn");
+var span = document.getElementsByClassName("close-btn")[0];
+
+// When the user clicks the button, open the popup
+btn.onclick = function() {
+    popup.style.display = "block";
+}
+
+// When the user clicks on <span> (x), close the popup
+span.onclick = function() {
+    popup.style.display = "none";
+}
+
+// When the user clicks anywhere outside of the popup, close it
+window.onclick = function(event) {
+    if (event.target == popup) {
+        popup.style.display = "none";
+    }
+}
+
+
+    </script>
+    
+    <style>
+      form {
+        max-width: 600px;
+        margin: 0 auto;
+        background-color: #fff;
+        padding: 20px;
+        border-radius: 5px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    }
+    h1 {
+        text-align: center;
+    }
+    label {
+        display: block;
+        margin-bottom: 5px;
+    }
+    input[type="text"],
+    input[type="number"],
+    select,
+    textarea {
+        width: 100%;
+        padding: 10px;
+        margin-bottom: 10px;
+        border: 1px solid #ccc;
+        border-radius: 3px;
+        box-sizing: border-box;
+    }
+    textarea {
+        height: 100px;
+    }
+    button {
+        padding: 10px 20px;
+        background-color: #007bff;
+        color: #fff;
+        border: none;
+        border-radius: 3px;
+        cursor: pointer;
+    }
+    button:hover {
+        background-color: #0056b3;
+    }
+      .input-group input,
+.input-group select {
+  width: 100%; /* Ensures full-width */
+  padding: 10px; /* Adjust padding as needed */
+  margin: 8px 0; /* Spacing between input fields */
+  display: inline-block; /* Allows elements to sit inline */
+  border: 1px solid #ccc; /* Border color */
+  border-radius: 4px; /* Rounded corners */
+  box-sizing: border-box; /* Adjusts box-sizing */
+}
+
+      /* Popup styles */
+      .popup {
+          display: none; /* Hidden by default */
+          position: fixed; /* Stay in place */
+          z-index: 1; /* Sit on top */
+          left: 0;
+          top: 0;
+          width: 100%; /* Full width */
+          height: 100%; /* Full height */
+          overflow: auto; /* Enable scroll if needed */
+          background-color: rgb(0,0,0); /* Fallback color */
+          background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+      }
+      
+      .popup-content {
+        background-color: #fefefe;
+        margin: 15% auto; /* Adjust this as needed */
+        padding: 20px;
+        border: 1px solid #888;
+        width: 30%; /* Adjusted to make the popup narrower */
+        max-width: 400px; /* Ensures it doesn't get too wide on larger screens */
+        height: auto; /* Adjust height as needed */
+        min-height: 200px; /* Gives it a more square appearance */
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+    }
+    
+      
+      .close-btn {
+          color: #aaa;
+          float: right;
+          font-size: 28px;
+          font-weight: bold;
+      }
+      
+      .close-btn:hover,
+      .close-btn:focus {
+          color: black;
+          text-decoration: none;
+          cursor: pointer;
+      }
+      
+
+      
+      .row {
+        display: flex;
+        justify-content: space-between;
+        margin-bottom: 10px;
+      }
+
+      .column {
+        flex: 1;
+        padding-right: 10px;
+      }
+
+      .column:last-child {
+        padding-right: 0;
+      }
+
+      .input-group {
+        display: flex;
+        flex-direction: column;
+      }
+
+      .input-group label {
+        margin-bottom: 5px;
+      }
+
+      .input-group input,
+      .input-group textarea {
+        padding: 8px;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+      }
+
+      .button-row {
+        display: flex;
+        justify-content: flex-end;
+      }
+
+      button[type="submit"] {
+        padding: 10px 20px;
+        background-color: #007bff;
+        color: white;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+      }
+
+      button[type="submit"]:hover {
+        background-color: #0056b3;
+      }
+    </style>
+{%endblock%}

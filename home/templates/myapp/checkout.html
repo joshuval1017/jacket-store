@@ -1,0 +1,132 @@
+
+
+
+
+
+{% extends 'myapp/Base.html' %}
+{% load static %}
+{% block title %} Purchase{% endblock %}
+
+
+{% block body %}
+<style>
+  
+
+    .box-element {
+        background-color: #ffffff;
+        padding: 20px;
+        border-radius: 8px;
+        margin-bottom: 20px;
+    }
+
+    #form-wrapper {
+        border: 1px solid #dee2e6;
+    }
+
+    #user-info,
+    #shipping-info {
+        margin-bottom: 20px;
+    }
+
+    #form-button {
+        background-color: #28a745;
+        color: #ffffff;
+    }
+
+    #payment-info {
+        background-color: #f8d7da;
+        color: #721c24;
+    }
+
+    .cart-row {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        margin-bottom: 10px;
+    }
+
+    .row-image {
+        max-width: 50px;
+        max-height: 50px;
+        object-fit: cover;
+        border-radius: 4px;
+    }
+
+    hr {
+        border-color: #dee2e6;
+    }
+</style>
+
+<br><br><br><br>
+<form action="" method="POST">
+    {% csrf_token %}
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-6">
+                <div class="box-element" id="form-wrapper">
+                    <form id="form">
+                        <div id="user-info">
+                            <div class="form-group">
+                                <label for="name">Name</label>
+                                <input required class="form-control" type="text" name="name" value="{{user.name}}" placeholder="Name..">
+                            </div>
+                            <div class="form-group">
+                                <label for="email">Email</label>
+                                <input required class="form-control" type="email" name="email" value="{{user.email}}" placeholder="Email..">
+                            </div>
+                        </div>
+
+                        <div id="shipping-info">
+                            <hr>
+                            <p>Shipping Information:</p>
+                            <hr>
+                            <div class="form-group">
+                                <label for="address">Address</label>
+                                <input class="form-control" type="text" name="address" value="{{user.address}}" placeholder="Address..">
+                            </div>
+
+                            <div class="form-group">
+                                <label for="contact">Contact</label>
+                                <input class="form-control" type="text" name="contact" value="{{user.contact}}" placeholder="Contact..">
+                            </div>
+
+                            <div class="form-group">
+                                <label for="pincode">Pin code</label>
+                                <input class="form-control" type="text" name="pincode" value="{{user.pin}}" placeholder="Pin code..">
+                            </div>
+                            <input type="hidden" name="total" value="{{cart.total}}">
+                        </div>
+
+                        <hr>
+                        <input id="form-button" class="btn btn-success btn-block" type="submit" value="Place Order">
+                    </form>
+                </div>
+
+
+            </div>
+
+            <div class="col-lg-6">
+                <div class="box-element">
+                    <a class="btn btn-outline-dark" href="{% url 'clothapp:my-cart' %}">&#x2190; Back to Cart</a>
+                    <hr>
+                    <h3>Order Summary</h3>
+                    <hr>
+
+                    {% for cp in cart.cartproduct_set.all %}
+                    <div class="cart-row">
+                        <div style="flex:2"><img class="row-image" src="{{cp.product.image.url}}"  alt="{{cp.product.product_name}}"></div>
+                        <div style="flex:2"><p>{{cp.product.name}}</p></div>
+                        <div style="flex:1"><p>${{cp.product.price|floatformat:2}}</p></div>
+                        <div style="flex:1"><p>Quantity : {{cp.quantity}}</p></div>
+                    </div>
+                    {% endfor %}
+
+                    <h5>Total: ${{cart.total}}</h5>
+                </div>
+            </div>
+        </div>
+    </div>
+</form>
+<br><br><br><br><br>
+
+{% endblock %}
